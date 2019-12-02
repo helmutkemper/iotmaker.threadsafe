@@ -10,13 +10,31 @@ type platformType iotmaker_platform_IDraw.IDraw
 
 var closeTheDoorAndMakeTheWorldWait sync.Mutex
 
-func ScratchPad(platform platformType, drawInvisible, getImageData, clearRectangle platFunc) {
+func ScratchPad(platform platformType, prepareGradientFilter, drawInvisible, getImageData, clearRectangle platFunc) {
+
+	if platform == nil {
+		return
+	}
+
 	closeTheDoorAndMakeTheWorldWait.Lock()
 
-	drawInvisible(platform)
+	if prepareGradientFilter != nil {
+		prepareGradientFilter(platform)
+	}
+
+	if drawInvisible != nil {
+		drawInvisible(platform)
+	}
+
 	platform.Stroke()
-	getImageData(platform)
-	clearRectangle(platform)
+
+	if getImageData != nil {
+		getImageData(platform)
+	}
+
+	if clearRectangle != nil {
+		clearRectangle(platform)
+	}
 
 	closeTheDoorAndMakeTheWorldWait.Unlock()
 }
