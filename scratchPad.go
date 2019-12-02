@@ -8,9 +8,9 @@ import (
 type platFunc func(iotmaker_platform_IDraw.IDraw)
 type platformType iotmaker_platform_IDraw.IDraw
 
-func ScratchPadThreadSafe(platform platformType, drawInvisible, getImageData, clearRectangle platFunc) {
-	var closeTheDoorAndMakeTheWorldWait sync.Mutex
+var closeTheDoorAndMakeTheWorldWait sync.Mutex
 
+func ScratchPad(platform platformType, drawInvisible, getImageData, clearRectangle platFunc) {
 	closeTheDoorAndMakeTheWorldWait.Lock()
 
 	drawInvisible(platform)
